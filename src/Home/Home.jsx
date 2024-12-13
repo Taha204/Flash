@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Header2/Header2';
+import Footer from "../LandingPage/Components/Footer"
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import { FaFlask, FaGlobe, FaBrain, FaHistory } from 'react-icons/fa'; // Importez les icônes nécessaires
@@ -52,8 +53,14 @@ const Home = () => {
             ))}
           </div>
         </section>
+        
       </main>
+      <Footer />
+
+      
+
     </>
+    
   );
 };
 

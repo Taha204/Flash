@@ -68,7 +68,9 @@ export default QuizDesignPage;
 */
 import React, { useState } from "react";
 import "./QuizDesignPage.css";
-import Header3 from "../dashboard/Header3"
+import Header2 from "../Header2/Header2";
+import Footer from "../LandingPage/Components/Footer"
+
 
 function QuizDesignPage() {
   const [questions, setQuestions] = useState([
@@ -108,7 +110,7 @@ function QuizDesignPage() {
 
   return (
     <>
-    <Header3 />
+    <Header2 />
     <div className="quiz-design-page">
       <h2>Quiz Design Interface</h2>
 
@@ -153,6 +155,8 @@ function QuizDesignPage() {
       <button className="save-quiz-btn">Save Quiz</button>
       <p>Click 'Save Quiz' to save your progress. Ensure all questions are finalized before submission.</p>
     </div>
+    <Footer />
+
   </>);
 }
 

@@ -40,13 +40,13 @@ import "./dashboard.css";
 import ProfileSection from "./ProfileSection";
 import StreakSection from "./StreakSection";
 import CoursesSection from "./CoursesSection";
-import Header3 from "./Header3";
 import Footer from "../LandingPage/Components/Footer"
+import Header2 from "../Header2/Header2";
 
 function Dashboard() {
   return (<>
       
-        <Header3 />
+        <Header2 />
           
               <main className="main3">
                 <ProfileSection />
