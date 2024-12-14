@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Testimonials.css';
 
 const Testimonials = () => {
@@ -6,13 +6,13 @@ const Testimonials = () => {
     {
       name: "Emma Johnson",
       image: "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp",
-      rating: 5,
+      rating: 4,
       feedback: "QuizMaster makes learning fun and easy!",
     },
     {
       name: "Liam Smith",
       image: "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp",
-      rating: 5,
+      rating: 3,
       feedback: "A fantastic app for quiz lovers!",
     },
     {
@@ -44,22 +44,22 @@ const Testimonials = () => {
       image: "https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp",
       rating: 5,
       feedback: "A fantastic app for quiz lovers!",
-    }
+    },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const nextSlide = () => {
-    if (currentIndex < testimonials.length - 3) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
+  // Automatic scrolling logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex < testimonials.length - 3 ? prevIndex + 1 : 0
+      );
+    }, 3000); // Change slide every 3 seconds
 
-  const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
 
   return (
     <section className="testimonials">
@@ -82,18 +82,6 @@ const Testimonials = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="navigation">
-        <button onClick={prevSlide} className="nav-btn" disabled={currentIndex === 0}>
-          &lt; Prev
-        </button>
-        <button
-          onClick={nextSlide}
-          className="nav-btn"
-          disabled={currentIndex >= testimonials.length - 3}
-        >
-          Next &gt;
-        </button>
       </div>
     </section>
   );

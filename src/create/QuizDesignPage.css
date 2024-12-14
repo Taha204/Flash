@@ -1,13 +1,14 @@
 .quiz-design-page {
     padding: 2rem;
     color: white;
-    background-color: #2E2E2E;
+    background-color: #011833;
+    height: 100vh;
   }
   
   .container{
     padding: 2rem;
     color: white;
-    background-color: #2E2E2E;
+    background-color: #011833;
     
  }
 
@@ -19,13 +20,13 @@
     padding: 6px 16px;
     border: 1px solid gray;
     border-radius: 4px;
-    background-color: #2E2E2E;
+    background-color: #011833;
  }
 
  .input-group{
     position: relative;
     margin-bottom: 15px;
-    background-color: #2E2E2E;
+    background-color: #011833;
  }
 
  .input-group #input:focus{
@@ -41,7 +42,7 @@
     left: 40px;
     font-size: 12px;
     font-weight: bold;
-    background: #2E2E2E;
+    background: #011833;
     padding: 0 10px;
     color: #999;
     transition: all .3s ease;
@@ -83,7 +84,7 @@
     border: none;
     border-radius: 5px;
     color: white;
-    background-color:#2E2E2E;
+    background-color:#011833;
     border-width: 5px;
     border-color: #fff;
   }
@@ -92,7 +93,7 @@
     
     height: 45px;
     margin: 5px;
-    background: #2E2E2E;
+    background: #011833;
     color: #ff5f6d;
     border:  1px solid #ff5f6d;
     border-radius: 5px;
@@ -130,7 +131,7 @@
   
   .save-quiz-btn {
     padding: 0.5rem 2rem;
-    background: #2E2E2E;
+    background: #011833;
     color: #ff5f6d;
     border: 1px solid #ff5f6d;
     border-radius: 10px;
@@ -140,7 +141,7 @@
   .question-type-select {
     height: 45px;
     margin: 5px;
-    background: #2E2E2E;
+    background:#011833;
     color: #ff5f6d;
     border: 1px solid #ff5f6d;
     border-radius: 5px;
