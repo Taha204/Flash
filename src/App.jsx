@@ -8,7 +8,7 @@ import LoginPage from "./Login/LoginPage";
 import QuizPage from "./Quizz/QuizPage";
 import QuizDesignPage from "./create/QuizDesignPage"; // Import the Create page
 import Dashboard from "./dashboard/dashboard"; // Import the Dashboard page
-
+import MyQuizzes from "./MyQuizzes/MyQuizzes";
 const App = () => {
   return (
     <Router>
@@ -18,6 +18,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/my-quizzes" element={<MyQuizzes />} />
 
         {/* New routes */}
         <Route path="/create" element={<QuizDesignPage />} />

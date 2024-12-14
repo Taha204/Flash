@@ -54,6 +54,10 @@ const Header2 = () => {
           >
             Create
           </a>
+          <a href="/my-quizzes" className={`nav-link ${location.pathname === '/my-quizzes' ? 'active' : ''}`}>
+            My Quizzes
+          </a>
+
         </nav>
         <div className="user-profile" onClick={goToDashboard} style={{ cursor: 'pointer' }}>
           <img
