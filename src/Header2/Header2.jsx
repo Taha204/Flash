@@ -36,12 +36,7 @@ const Header2 = () => {
           >
             Home
           </a>
-          <a
-            href="/login"
-            className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}
-          >
-            Log In
-          </a>
+        
           <button
             onClick={scrollToFooter}
             className={`nav-link button-link ${location.pathname === '/contact' ? 'active' : ''}`}

@@ -1,163 +1,118 @@
-/*import React, { useState } from "react";
-import "./QuizDesignPage.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './QuizDesignPage.css';
+import Header2 from '../Header2/Header2';
+const QuizDesignPage = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState({ question: '', options: ['', '', '', ''], answer: '' });
+  const navigate = useNavigate();
 
-function QuizDesignPage() {
-  const [questions, setQuestions] = useState([
-    {
-      id: 1,
-      type: "Multiple Choice",
-      text: "What is the capital of France?",
-    },
-    {
-      id: 2,
-      type: "True/False",
-      text: "Is the Earth flat?",
-    },
-    {
-      id: 3,
-      type: "Open-ended",
-      text: "Explain the theory of relativity.",
-    },
-  ]);
+  const userId = "currentUser"; // Replace with the actual logged-in user's ID or username
 
   const addQuestion = () => {
-    // Ajouter une nouvelle question vide à la liste
-    setQuestions([
-      ...questions,
-      {
-        id: questions.length + 1,
-        type: "Open-ended",
-        text: "",
-      },
-    ]);
+    if (newQuestion.question && newQuestion.answer && newQuestion.options.every((opt) => opt)) {
+      setQuestions([...questions, newQuestion]);
+      setNewQuestion({ question: '', options: ['', '', '', ''], answer: '' });
+    }
   };
 
-  return (
-    <div className="quiz-design-page">
-      <h2>Quiz Design Interface</h2>
-      
-      
-      <div class="container">
-        <div class="input-group">
-            <input type="text" id="input" autocomplete="off"/>
-            <label for="input">Enter question text here...</label>
-            <button className="add-question-btn" onClick={addQuestion}>
-              + Add Question
-            </button>
-        </div>
-      </div>
+  const handleCreateQuiz = async () => {
+    if (!title || !description || !category || questions.length === 0) {
+      alert('Please complete all fields and add at least one question.');
+      return;
+    }
 
-      <div className="question-list">
-        {questions.map((question) => (
-          <div key={question.id} className="question-card">
-            <h4>Question {question.id}</h4>
-            <p>{question.text}</p>
-            <p>{question.type}</p>
-            <button className="edit-btn">Edit</button>
-          </div>
-        ))}
-      </div>
+    const newQuiz = {
+      title,
+      description,
+      category,
+      questions,
+      createdBy: userId, // Mark the quiz with the current user's identifier
+    };
 
-      <button className="save-quiz-btn">Save Quiz</button>
-      <p>Click 'Save Quiz' to save your progress. Ensure all questions are finalized before submission.</p>
-    </div>
-  );
-}
+    try {
+      const response = await fetch('http://localhost:5000/quizzes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newQuiz),
+      });
 
-export default QuizDesignPage;
-*/
-import React, { useState } from "react";
-import "./QuizDesignPage.css";
-import Header2 from "../Header2/Header2";
-import Footer from "../LandingPage/Components/Footer"
+      if (!response.ok) throw new Error('Failed to create quiz');
 
-
-function QuizDesignPage() {
-  const [questions, setQuestions] = useState([
-    {
-      id: 1,
-      type: "Multiple Choice",
-      text: "What is the capital of France?",
-    },
-    {
-      id: 2,
-      type: "True/False",
-      text: "Is the Earth flat?",
-    },
-    {
-      id: 3,
-      type: "Open-ended",
-      text: "Explain the theory of relativity.",
-    },
-  ]);
-
-  const [newQuestionText, setNewQuestionText] = useState("");
-  const [newQuestionType, setNewQuestionType] = useState("Multiple Choice");
-
-  const addQuestion = () => {
-    if (newQuestionText.trim() !== "") {
-      setQuestions([
-        ...questions,
-        {
-          id: questions.length + 1,
-          type: newQuestionType,
-          text: newQuestionText,
-        },
-      ]);
-      setNewQuestionText(""); // Réinitialiser le champ de texte
+      alert('Quiz created successfully!');
+      navigate('/my-quizzes');
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      alert('Error creating quiz.');
     }
   };
 
   return (
     <>
     <Header2 />
+
     <div className="quiz-design-page">
-      <h2>Quiz Design Interface</h2>
-
-      <div className="container">
-        <div className="input-group">
-          <input
-            type="text"
-            id="input"
-            autoComplete="off"
-            value={newQuestionText}
-            onChange={(e) => setNewQuestionText(e.target.value)}
-          />
-          <label htmlFor="input">Enter question text here...</label>
-
-          <select
-            className="question-type-select"
-            value={newQuestionType}
-            onChange={(e) => setNewQuestionType(e.target.value)}
-          >
-            <option value="Multiple Choice">Multiple Choice</option>
-            <option value="True/False">True/False</option>
-            <option value="Open-ended">Open-ended</option>
-          </select>
-
-          <button className="add-question-btn" onClick={addQuestion}>
-            + Add Question
-          </button>
-        </div>
-      </div>
-
-      <div className="question-list">
-        {questions.map((question) => (
-          <div key={question.id} className="question-card">
-            <h4>Question {question.id}</h4>
-            <p>{question.text}</p>
-            <p>{question.type}</p>
-            <button className="edit-btn">Edit</button>
+      <h1>Design Your Quiz</h1>
+      <div className="form">
+        <input
+          type="text"
+          placeholder="Quiz Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          placeholder="Quiz Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Select Category</option>
+          <option value="programming">Programming</option>
+          <option value="data-structures">Data Structures</option>
+          <option value="networking">Networking</option>
+          <option value="machine-learning">Machine Learning</option>
+        </select>
+        <h3>Questions</h3>
+        {questions.map((q, index) => (
+          <div key={index} className="question-item">
+            <p>{q.question}</p>
           </div>
         ))}
+        <input
+          type="text"
+          placeholder="Question"
+          value={newQuestion.question}
+          onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })}
+        />
+        {newQuestion.options.map((opt, idx) => (
+          <input
+            key={idx}
+            type="text"
+            placeholder={`Option ${idx + 1}`}
+            value={opt}
+            onChange={(e) => {
+              const options = [...newQuestion.options];
+              options[idx] = e.target.value;
+              setNewQuestion({ ...newQuestion, options });
+            }}
+          />
+        ))}
+        <input
+          type="text"
+          placeholder="Correct Answer"
+          value={newQuestion.answer}
+          onChange={(e) => setNewQuestion({ ...newQuestion, answer: e.target.value })}
+        />
+        <button onClick={addQuestion} className="add-question-button">Add Question</button>
+        <button onClick={handleCreateQuiz} className="create-quiz-button">
+          Save Quiz
+        </button>
       </div>
-
-      <button className="save-quiz-btn">Save Quiz</button>
-      <p>Click 'Save Quiz' to save your progress. Ensure all questions are finalized before submission.</p>
     </div>
-    <Footer />
-
-  </>);
-}
+    </>);
+};
 
 export default QuizDesignPage;

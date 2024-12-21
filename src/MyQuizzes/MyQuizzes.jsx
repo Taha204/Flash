@@ -1,56 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './MyQuizzes.css';
 import Header2 from '../Header2/Header2';
 const MyQuizzes = () => {
-  const [quizzes, setQuizzes] = useState([
-    {
-      id: 1,
-      title: "Cognitive Skills",
-      description: "Explore and improve your cognitive skills.",
-      duration: "30 mins",
-      participants: 120,
-    },
-    {
-      id: 2,
-      title: "History Quiz",
-      description: "Learn about significant historical events.",
-      duration: "20 mins",
-      participants: 95,
-    },
-    {
-      id: 3,
-      title: "Math Challenge",
-      description: "Solve complex mathematical problems.",
-      duration: "25 mins",
-      participants: 150,
-    },
-  ]);
+  const [myQuizzes, setMyQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const userId = "currentUser"; // Replace with the actual logged-in user's ID or username
+
+  useEffect(() => {
+    const fetchMyQuizzes = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/quizzes'); // Fetch all quizzes
+        if (!response.ok) throw new Error('Failed to fetch quizzes');
+        const data = await response.json();
+
+        // Filter quizzes by the current user's ID
+        const userQuizzes = data.filter((quiz) => quiz.createdBy === userId);
+        setMyQuizzes(userQuizzes);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMyQuizzes();
+  }, []);
 
   return (
     <>
     <Header2 />
-    <section className="my-quizzes">
-      <h2>My Quizzes</h2>
-      <p>Here are the quizzes you have created:</p>
-      <div className="quizzes-list">
-        {quizzes.length === 0 ? (
-          <p className="empty-message">You haven’t created any quizzes yet.</p>
-        ) : (
-          quizzes.map((quiz) => (
+    <div className="my-quizzes-page">
+      <h1>My Quizzes</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>{error}</p>
+      ) : myQuizzes.length === 0 ? (
+        <p>No quizzes created yet.</p>
+      ) : (
+        <div className="quiz-list">
+          {myQuizzes.map((quiz) => (
             <div key={quiz.id} className="quiz-card">
-              <div className="quiz-info">
-                <h3>{quiz.title}</h3>
-                <p>{quiz.description}</p>
-                <small>Duration: {quiz.duration} | Participants: {quiz.participants}</small>
-              </div>
-              <div className="quiz-actions">
-                <button className="view-more-btn">View More</button>
-              </div>
+              <h3>{quiz.title}</h3>
+              <p>{quiz.description}</p>
+              <button onClick={() => navigate(`/quiz/${quiz.id}`)}>View Quiz</button>
             </div>
-          ))
-        )}
-      </div>
-    </section>
+          ))}
+        </div>
+      )}
+    </div>
     </>);
 };
 
